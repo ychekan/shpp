@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="shpp-cs-java-lib">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/shpp-cs-java-lib.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
