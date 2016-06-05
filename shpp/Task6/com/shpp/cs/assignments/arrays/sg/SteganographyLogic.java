@@ -53,24 +53,6 @@ public class SteganographyLogic {
      * @param source  The source image.
      * @return A GImage whose pixels have the message hidden within it.
      */
-    /*
-    public static GImage hideMessage(boolean[][] message, GImage source) {
-        int[][] pixels = source.getPixelArray();
-        for (int rows = 0; rows < pixels.length; ++rows) {
-            for (int cols = 0; cols < pixels[rows].length; ++cols) {
-                ///** Get up color value in rows and cols *
-                int colorGreen = GImage.getGreen(pixels[rows][cols]);
-                int colorBlue = GImage.getBlue(pixels[rows][cols]);
-                int colorRed = GImage.getRed(pixels[rows][cols]);
-               // /** Change red color *
-                if (message[rows][cols])
-                    //colorRed = (colorRed % 2 != 0) ? colorRed + 1: colorRed - 1;
-                ///** Set new parameters RGB *
-                pixels[rows][cols] = GImage.createRGBPixel(((colorRed % 2 != 0) ? colorRed + 1: colorRed - 1), colorGreen, colorBlue);
-            }
-        }
-        return new GImage(pixels);
-    }*/
     public static GImage hideMessage(boolean[][] message, GImage source) {
         int[][] pixels = source.getPixelArray();
         for (int rows = 0; rows < pixels.length; ++rows) {
