@@ -1,4 +1,5 @@
-package com.shpp.task6.ychekan;
+///package com.shpp.task6.ychekan;
+package com.shpp.cs.assignments.arrays.sg;
 
 import acm.graphics.GImage;
 
@@ -19,6 +20,7 @@ public class SteganographyLogic {
      * @param source The image containing the hidden message.
      * @return The hidden message, expressed as a boolean array.
      */
+
     public static boolean[][] findMessage(GImage source) {
         int[][] pixels = source.getPixelArray();
         boolean[][] result = new boolean[pixels.length][pixels[0].length];
@@ -51,30 +53,53 @@ public class SteganographyLogic {
      * @param source  The source image.
      * @return A GImage whose pixels have the message hidden within it.
      */
+    /*
     public static GImage hideMessage(boolean[][] message, GImage source) {
         int[][] pixels = source.getPixelArray();
         for (int rows = 0; rows < pixels.length; ++rows) {
             for (int cols = 0; cols < pixels[rows].length; ++cols) {
-                /** Get up color value in rows and cols */
+                ///** Get up color value in rows and cols *
                 int colorGreen = GImage.getGreen(pixels[rows][cols]);
                 int colorBlue = GImage.getBlue(pixels[rows][cols]);
                 int colorRed = GImage.getRed(pixels[rows][cols]);
-                /** Change red color */
+               // /** Change red color *
                 if (message[rows][cols])
-                    changeRed(colorRed);
-                /** Set new parameters RGB */
-                pixels[rows][cols] = GImage.createRGBPixel(colorRed, colorGreen, colorBlue);
+                    //colorRed = (colorRed % 2 != 0) ? colorRed + 1: colorRed - 1;
+                ///** Set new parameters RGB *
+                pixels[rows][cols] = GImage.createRGBPixel(((colorRed % 2 != 0) ? colorRed + 1: colorRed - 1), colorGreen, colorBlue);
+            }
+        }
+        return new GImage(pixels);
+    }*/
+    public static GImage hideMessage(boolean[][] message, GImage source) {
+        int[][] pixels = source.getPixelArray();
+        for (int rows = 0; rows < pixels.length; ++rows) {
+            for (int cols = 0; cols < pixels[rows].length; ++cols) {
+                int colorGreen = GImage.getGreen(pixels[rows][cols]);
+                int colorBlue = GImage.getBlue(pixels[rows][cols]);
+                int colorRed = GImage.getRed(pixels[rows][cols]);
+                /**
+                 *  Change red color
+                 *  Set new parameters RGB
+                 */
+                pixels[rows][cols] = GImage.createRGBPixel((message[rows][cols]) ?  changeOdd(colorRed) : changeEven(colorRed), colorGreen, colorBlue);
+
             }
         }
         return new GImage(pixels);
     }
 
-    /**
-     * Method for to increase by one red color
-     */
-    private static int changeRed(int colorRed) {
-        colorRed = (colorRed % 2 != 0) ? colorRed - 1: colorRed + 1;
+    /** Change number color in - 1 */
+    private static int changeEven(int colorRed) {
+        if (colorRed % 2 != 0)
+            --colorRed;
+        return colorRed;
+    }
+
+    /** Change number color in + 1 */
+    private static int changeOdd(int colorRed) {
+        if (colorRed % 2 == 0)
+            ++colorRed;
         return colorRed;
     }
 }
-
