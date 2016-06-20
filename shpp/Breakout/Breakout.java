@@ -81,6 +81,10 @@ public class Breakout extends WindowProgram {
      */
     private static final int NTURNS = 3;
 
+    private static final double MIN_RANGE_RANDOM = 1.0;
+
+    private static final double MAX_RANGE_RANDOM = 3.0;
+
     /**
      * Ball velocity
      */
@@ -102,6 +106,12 @@ public class Breakout extends WindowProgram {
     private static final int PAUSE = 5;
 
     /**
+     * Objects type GOval
+     */
+    private GOval gameBall;
+
+
+    /**
      * Font for text in game
      */
     private Font font() {
@@ -113,10 +123,10 @@ public class Breakout extends WindowProgram {
      * Main method for play teh game
      */
     public void run() {
-        LineBricks();
+        drawLineBricks();
         drawPaddle();
         for (int Raund = 0; Raund < NTURNS; ++Raund) {
-            MyBall();
+            drawBall();
             playTheGame();
             if (brickCounter == 0) {
                 gameBall.setVisible(false);
@@ -129,7 +139,7 @@ public class Breakout extends WindowProgram {
             displayMessage("Game Over :(");
     }
 
-    private void LineBricks() {
+    private void drawLineBricks() {
         /**
          * This method use parameter BRICK_WIDTH & BRICK_HEIGHT for build brick!
          * @param coordinates X = i * (BRICK_SEP + BRICK_WIDTH) + BRICK_SEP / 2 - coordinates X for brick,
@@ -165,14 +175,9 @@ public class Breakout extends WindowProgram {
     }
 
     /**
-     * Objects type GOval
-     */
-    private GOval gameBall;
-
-    /**
      * Draw ball
      */
-    private void MyBall() {
+    private void drawBall() {
         /**
          * Paint ball in center display
          * Color CYAN
@@ -211,9 +216,8 @@ public class Breakout extends WindowProgram {
      * The get in vector for move ball on game
      */
     private void getBallVelocity() {
-        /** Random search value for position ball */
         RandomGenerator rgen = RandomGenerator.getInstance();
-        vx = rgen.nextDouble(1.0, 3.0);
+        vx = rgen.nextDouble(MIN_RANGE_RANDOM, MAX_RANGE_RANDOM);
         vy = SPEED;
     }
 
@@ -249,7 +253,7 @@ public class Breakout extends WindowProgram {
     }
 
     /**
-     * This method for
+     * The check four points of the ball  for colliding with any objects
      */
     private GObject getCollidingObject() {
         double ballX = gameBall.getX();
@@ -284,16 +288,12 @@ public class Breakout extends WindowProgram {
         }
     }
 
-    /**
-     * Objects type GLabel
-     */
-    private GLabel text;
 
     /**
      * Print messing for winner users
      */
     private void displayMessage(String message) {
-        text = new GLabel(message, getWidth() / 2, getHeight() / 2);
+        GLabel text = new GLabel(message, getWidth() / 2, getHeight() / 2);
         text.setFont(font());
         text.move(-text.getWidth() / 2, -text.getHeight());
         text.setColor(Color.RED);
