@@ -1,0 +1,145 @@
+<DOCUMENT HTML>
+  <html>
+  <head>
+    <meta http-equiv="Content-Type" charset="utf-8">
+
+    <title>Check for the existence of images</title>
+    <script>
+    function openFile(files) {
+      if(window.FileReader){
+        getAsText(files[0]);
+      }
+      else {
+        alert("Problem from read scv file");
+      }
+    };
+
+    function getAsText(fileToRead) {
+      var reader = new FileReader();
+        // Read file is memory as UTF-8
+        reader.readAsText(fileToRead);
+        // Handle error load
+        reader.onload = loadHandler;
+        reader.onerror = errorHandler;
+      };
+
+      function loadHandler(event){
+        var csv = event.target.result;
+        processData(csv);
+      };
+
+      function processData(csv) {
+        var allTextLines = csv.split(/\r\n|\n/);
+        var nameImg = [];
+        var cellImgs = [];
+        var fileCSVinCell = [];
+        for (var k = 0; k < allTextLines.length; ++k) {
+          cell = allTextLines[k].split(/\t/);
+          fileCSVinCell.push(cell);
+        }
+
+        /** Search in number column from name images */
+        for (var i = 0; i < fileCSVinCell[0].length; ++i) {
+          if (fileCSVinCell[0][i].toString() == "Image")
+            var indImage = i;
+          if (fileCSVinCell[0][i].toString() == "Images")
+            var indImages = i;
+        }
+        /** Start in 1 row, array name images in CSV file */
+        for (var j = 1; j < fileCSVinCell.length - 1; ++j) {
+            nameImg.push(fileCSVinCell[j][indImage]);
+            /* Включам проверку для дополнительных картинок */
+
+            /*
+            проверяем не пуста ли ячейка Images, усли нет то розбиваем её на имена по разделителю "," и добавляем в массив к всем именам с csv файла
+            if (fileCSVinCell[j][indImages].toString() != ""){
+                //cellImgs = fileCSVinCell[j][indImages].split(",");
+                for (var v = 0; v < cell.length; ++v) {
+                  cellImgs = fileCSVinCell[j][indImages].split(",");
+                  nameImg.push(cellImgs[v]);
+                }
+            }*/
+        }
+        checkNameImg(nameImg);
+
+      };
+
+      function errorHandler() {
+          if (evt.target.error.name == "NotReadableError")
+              alert("Canno't read file !");
+      };
+
+          function checkNameImg(nameImgCsv) {
+        //var result = [];
+        
+        var resultType = [];
+        //sizeArr = [];
+        function openImage(evnt) {
+          var files = document.getElementById('files').files;
+          var arrNameImgUpload = [];
+          //getSizeImg(files);
+          for (var i = 0, f; f = files[i]; i++) {
+            arrNameImgUpload.push(f.name);//, f.type, f.size);
+            //getSizeImg(f);
+
+            if (f.type != "image/jpeg" && resultType[i] != f.name)
+              resultType.push(f.name);
+          }
+
+        return arrNameImgUpload;
+      }
+      
+      var resultImg = [];
+      var errArr = [];
+      for (var i = 0; i < nameImgCsv.length; ++i) {
+        if (nameImgCsv[i] != "Image_Not_Available.jpg") {
+        for (var j = 0; j < openImage().length; ++j) {
+          if (nameImgCsv[i] != openImage()[j] && nameImgCsv[i] != resultImg[resultImg.length - 1])
+            resultImg.push(nameImgCsv[i]);
+        }
+      }
+      }
+      outputResult("Image type does not match *.jpg:", resultType);
+      outputResult("Image not exist:", resultImg);
+}
+
+
+function outputResult(text, arrResult) {
+  document.write("<p><strong>" + text + "</strong></p><ul>");
+  for (var i = 0; i < arrResult.length; ++i) {
+    for (var j = 0; j < arrResult.length; ++j) {
+     
+      if (arrResult[i] == arrResult[j] && i != j || arrResult[i] == "")
+          arrResult.splice(i, 1);
+    }
+    document.write('<li>' + arrResult[i] + '</li>');
+  }
+  document.write("</ul>");
+}
+
+/*function getSizeImg(srcImg) {
+    console.log(srcImg);
+}*/
+    /*function arrImageForCheck(a, b) {
+        openFile(a);
+        var fileImgDir = handleFileSelect(b);
+        //console.log(fileCsvArr);
+        console.log(r);
+      }*/
+/** 
+
+onchange="handleFileSelect(this.value)"
+*/
+
+</script>
+
+</head>
+<body>
+  <input type="file" id="fileCSV" name="fileCSVname"  accept=".csv" />
+  <p>
+    <input type="file" id="files" name="files[]"  accept="image/*" multiple />
+  </p>
+  <input type="submit" onclick="openFile(getElementById('fileCSV').files)" />
+  <output id="output"></output>
+</body>
+</html>
