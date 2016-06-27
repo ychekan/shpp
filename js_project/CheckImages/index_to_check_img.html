@@ -45,21 +45,23 @@
           if (fileCSVinCell[0][i].toString() == "Images")
             var indImages = i;
         }
+
         /** Start in 1 row, array name images in CSV file */
         for (var j = 1; j < fileCSVinCell.length - 1; ++j) {
-            nameImg.push(fileCSVinCell[j][indImage]);
+            if (nameImg[j - 1] != fileCSVinCell[j][indImage]) 
+                nameImg.push(fileCSVinCell[j][indImage]);
             /* Включам проверку для дополнительных картинок */
-
-            /*
-            проверяем не пуста ли ячейка Images, усли нет то розбиваем её на имена по разделителю "," и добавляем в массив к всем именам с csv файла
-            if (fileCSVinCell[j][indImages].toString() != ""){
-                //cellImgs = fileCSVinCell[j][indImages].split(",");
-                for (var v = 0; v < cell.length; ++v) {
-                  cellImgs = fileCSVinCell[j][indImages].split(",");
-                  nameImg.push(cellImgs[v]);
-                }
-            }*/
+            if (fileCSVinCell[j][indImages]) {
+              var arrPar = parsImgs(fileCSVinCell[j][indImages])
+              if (arrPar.length > 1) 
+                  for (var i = 0; i < arrPar.length; ++i) 
+                      if (arrPar[i] != fileCSVinCell[j][indImages])
+                          nameImg.push(arrPar[i]); 
+              else 
+                  nameImg.push(fileCSVinCell[j][indImages]);
+            }
         }
+        checkToRepet(nameImg);
         checkNameImg(nameImg);
 
       };
@@ -76,11 +78,13 @@
         //sizeArr = [];
         function openImage(evnt) {
           var files = document.getElementById('files').files;
+          var fileD = document.getElementById('files').naturalHeight;
+          
           var arrNameImgUpload = [];
+          //console.log(srcLink);
           //getSizeImg(files);
           for (var i = 0, f; f = files[i]; i++) {
-            arrNameImgUpload.push(f.name);//, f.type, f.size);
-            //getSizeImg(f);
+            arrNameImgUpload.push(f.name);
 
             if (f.type != "image/jpeg" && resultType[i] != f.name)
               resultType.push(f.name);
@@ -99,6 +103,7 @@
         }
       }
       }
+      //checkToRepet(resultType);
       outputResult("Image type does not match *.jpg:", resultType);
       outputResult("Image not exist:", resultImg);
 }
@@ -117,27 +122,30 @@ function outputResult(text, arrResult) {
   document.write("</ul>");
 }
 
-/*function getSizeImg(srcImg) {
-    console.log(srcImg);
-}*/
-    /*function arrImageForCheck(a, b) {
-        openFile(a);
-        var fileImgDir = handleFileSelect(b);
-        //console.log(fileCsvArr);
-        console.log(r);
-      }*/
-/** 
+  function parsImgs(str) {
+    var arrRes;
+    return arrRes = str.split(',');
+  }
 
-onchange="handleFileSelect(this.value)"
-*/
+  function checkToRepet(arrInput) {
+      arrInput.sort();
+      for (var i = 0; i < arrInput.length; ++i) {
+          if (!arrInput[i]) {
+            delete arrInput[i];
+            break;
+          }
+          if (arrInput[i] == arrInput[i - 1])
+            delete arrInput[i];
+      }
+  }
 
 </script>
 
 </head>
 <body>
-  <input type="file" id="fileCSV" name="fileCSVname"  accept=".csv" />
+  <input type="file" id="fileCSV" name="fileCSVname" accept=".csv" />
   <p>
-    <input type="file" id="files" name="files[]"  accept="image/*" multiple />
+    <input type="file" id="files" name="files[]" accept="image/*" multiple />
   </p>
   <input type="submit" onclick="openFile(getElementById('fileCSV').files)" />
   <output id="output"></output>
