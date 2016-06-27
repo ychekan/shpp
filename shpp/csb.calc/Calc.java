@@ -14,14 +14,14 @@ import java.util.StringTokenizer;
 public class Calc extends TextProgram {
 
     public void run() {
-        calculet();
+        calLogic();
     }
 
     /**
      * The building all logic
      */
-    private void calculet() {
-        System.out.println("The operations: +, -, *, /, ^.");
+    private void calLogic() {
+        System.out.println("The operations: +, -, *, /, ^, %");
         while (true) {
             String strInPars = parserStr(readFormula());
             System.out.println(" = " + calculeted(strInPars));
@@ -43,9 +43,8 @@ public class Calc extends TextProgram {
             try {
                 stackTm = strStack.nextToken().trim();
                 if (1 == stackTm.length() && isOperator(stackTm.charAt(0))) {
-                    if (stack.size() < 2) {
+                    if (stack.size() < 2)
                         System.out.println("Error is count date in stack " + stackTm);
-                    }
                     resB = stack.pop();
                     resA = stack.pop();
                     switch (stackTm.charAt(0)) {
@@ -61,15 +60,12 @@ public class Calc extends TextProgram {
                         case '*':
                             resA *= resB;
                             break;
-                        /*case '%':
+                        case '%':
                             resA %= resB;
-                            break;*/
+                            break;
                         case '^':
                             resA = Math.pow(resA, resB);
                             break;
-                        /*case '^':
-                            resA = powNumber(resA, resB);
-                            break;*/
                         default:
                             System.out.println("Error operation is not available! Sorry !");
                     }
@@ -82,28 +78,9 @@ public class Calc extends TextProgram {
                 System.out.println("Error is - " + e);
             }
         }
-        if (stack.size() > 1) {
+        if (stack.size() > 1)
             System.out.println("Error, count operator not equals the number of operands!");
-        }
         return stack.pop();
-    }
-
-    /**
-     * In order not to use Math.pow()
-     */
-    private double powNumber(double base, double exponent) {
-        long result = 1; // The value = base^exponent, default 1 (if exponent = 0, value = 1) (value type long form big number)
-        if (exponent > 0) { // From positive exponent
-            for (int i = 1; i <= exponent; ++i) {
-                result *= base;
-            }
-        } else if (exponent < 0) {// From negative exponent
-            for (int i = 1; i <= (-exponent); ++i) {
-                result *= base;
-            }
-            result = 1 / result;
-        }
-        return result;
     }
 
     /**
@@ -155,7 +132,7 @@ public class Calc extends TextProgram {
      * The checks whether the current symbol of the operator priority
      */
     private byte isOperatorPriority(char operations) {
-        byte priorityCh = 1;
+        byte priorityCh = 1;// + and -
         if (operations == '^')
             priorityCh = 3;
         else if (operations == '*' || operations == '/' || operations == '%')
@@ -167,8 +144,7 @@ public class Calc extends TextProgram {
      * The checks whether the current symbol of the operator
      */
     private boolean isOperator(char calcIn) {
-        boolean cal = (calcIn == '-' || calcIn == '+' || calcIn == '*' || calcIn == '/') ? true : false;
-        return cal;
+        return (calcIn == '-' || calcIn == '+' || calcIn == '*' || calcIn == '/' || calcIn == '^' || calcIn == '%');
     }
 
     /**
