@@ -127,15 +127,15 @@ public class NameSurferGraph extends GCanvas
     private void drawCurrentGraph(NameSurferEntry entry, Color color) {
 
         /** Coordinate Y */
-        double YtoRange = (double) (getHeight() - GRAPH_MARGIN_SIZE * 2) / MAX_RANK;
+        double coordinateYtoRange = (double) (getHeight() - GRAPH_MARGIN_SIZE * 2) / MAX_RANK;
 
         /** First coordinate */
         double startX = 0;
-        double startY = (entry.getRank(0) == 0) ? getHeight() - GRAPH_MARGIN_SIZE : (entry.getRank(0) * YtoRange) + GRAPH_MARGIN_SIZE;
+        double startY = (entry.getRank(0) == 0) ? getHeight() - GRAPH_MARGIN_SIZE : (entry.getRank(0) * coordinateYtoRange) + GRAPH_MARGIN_SIZE;
 
         for (int i = 0; i < NDECADES - 1; ++i) {
             double endX = (i + 1) * getWidth() / NDECADES;
-            double endY = (entry.getRank(i + 1) == 0) ? getHeight() - GRAPH_MARGIN_SIZE : entry.getRank(i + 1) * YtoRange + GRAPH_MARGIN_SIZE;
+            double endY = (entry.getRank(i + 1) == 0) ? getHeight() - GRAPH_MARGIN_SIZE : entry.getRank(i + 1) * coordinateYtoRange + GRAPH_MARGIN_SIZE;
 
             /** Draw is line to name */
             GLine line = new GLine(startX, startY, endX, endY);

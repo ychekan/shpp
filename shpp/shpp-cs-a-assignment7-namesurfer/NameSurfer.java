@@ -34,13 +34,13 @@ public class NameSurfer extends SimpleProgram implements com.shpp.cs.namesurfer.
         add(textField, NORTH);
         textField.addActionListener(this);
 
-        /** The make button in name Clear */
-        buttonClear = new JButton("Clear");
-        add(buttonClear, NORTH);
-
         /** The make button in name Graph */
         buttonGraph = new JButton("Graph");
         add(buttonGraph, NORTH);
+
+        /** The make button in name Clear */
+        buttonClear = new JButton("Clear");
+        add(buttonClear, NORTH);
 
         /** The make to draw in graph */
         graph = new NameSurferGraph();
