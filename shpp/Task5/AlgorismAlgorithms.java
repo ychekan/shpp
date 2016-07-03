@@ -4,7 +4,7 @@ import com.shpp.cs.a.console.TextProgram;
 
 
 /**
- * Created by ret284 on 28.05.2016.
+ * Created by ret284 on 03.07.2016.
  */
 
 public class AlgorismAlgorithms extends TextProgram {
@@ -27,44 +27,47 @@ public class AlgorismAlgorithms extends TextProgram {
      * @return A String representation of n1 + n2
      */
     private String addNumericStrings(String n1, String n2) {
-        int tenWhole = 0;
+        int ten = 0;
         String result = "";
         if (n1.isEmpty() || n2.isEmpty())
             println("Enter string !");
         else {
-            int lengthN1 = n1.length();
-            int lengthN2 = n2.length();
+            int maxLen = (n1.length() > n2.length()) ? n1.length() : n2.length();
 
-            int MaxLength = (lengthN1 <= lengthN2) ? lengthN2 : lengthN1;
-            /** Max length string */
-            char[] n1char = n1.toCharArray();
-            char[] n2char = n2.toCharArray();
-            for (int i = 0; i < MaxLength; ++i) {
-                /**  */
-                int N1 = (lengthN1 > i) ? getNumberInString(n1char[lengthN1 - 1 - i]) : 0;
-                int N2 = (lengthN2 > i) ? getNumberInString(n2char[lengthN2 - 1 - i]) : 0;
-                if (N1 + N1 != 0) {
-                    int Result = N1 + N2 + tenWhole;
-                    if (Result > 9) {
-                        int resultUnits = Result % 10;
-                        tenWhole = (Result - resultUnits) / 10;
-                        result = Integer.toString(resultUnits) + result;
-                    } else
-                        result = Integer.toString(Result) + result;
-                }
-                else {
-                    System.out.println("In your number does not match the format. Did you enter a zero before the number");
-                    break;
+            if (n1.length() < maxLen) {
+                for (int i = 0; i < n2.length() - 1; ++i) {
+                    n1 = "0" + n1;
                 }
             }
+            System.out.println(n1);
+            if (n2.length() < maxLen) {
+                for (int i = 0; i < n1.length() - 1; ++i) {
+                    n2 = "0" + n2;
+                }
+            }
+            System.out.println(n2);
+            for (int i = maxLen - 1; i >= 0; --i) {
+                int intN1 = getIntFromStr(n1.charAt(i));
+                int intN2 = getIntFromStr(n2.charAt(i));
+                int resultInt = intN1 + intN2 + ten;
+                //System.out.println("resultInt = " + resultInt);
+                if (resultInt > 9) {
+                    int resultUnits = resultInt % 10;
+                    ten = (resultInt - resultUnits) / 10;
+                    result = resultUnits + result;
+                } else
+                    result = resultInt + result;
+            }
         }
-        if (tenWhole > 0)
-            result = Integer.toString(tenWhole) + result;
+        if (ten > 0)
+            result = Integer.toString(ten) + result;
         return result;
     }
 
-    private Integer getNumberInString(char strChar) {
-        int N = Integer.parseInt(String.valueOf(strChar));
-        return N;
+    /**
+     * Convert from char to the int
+     */
+    private int getIntFromStr(char num) {
+        return num - '0';
     }
 }
