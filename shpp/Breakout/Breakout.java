@@ -17,7 +17,7 @@ public class Breakout extends WindowProgram {
      * Width and height of application window in pixels
      */
     public static final int APPLICATION_WIDTH = 400;
-    public static final int APPLICATION_HEIGHT = 600;
+    public static final int APPLICATION_HEIGHT = 200;
 
     /**
      * Dimensions of game board (usually the same)
@@ -213,7 +213,7 @@ public class Breakout extends WindowProgram {
     private void getBallVelocity() {
         RandomGenerator rgen = RandomGenerator.getInstance();
         vx = rgen.nextDouble(MIN_RANGE_RANDOM, MAX_RANGE_RANDOM);
-        vy = SPEED ;
+        vy = SPEED;
     }
 
     /**
@@ -221,17 +221,19 @@ public class Breakout extends WindowProgram {
      */
     private void moveBall() {
         /** Ball move in coordinate vx and vy, this move result break out from paddle or wall */
+
+
         ball.move(vx, vy);
         /** Check coordinate ball and wall. If she closest to 0 then move turn out side */
         if (ball.getX() - vx <= 0 && vx < 0 || ball.getX() + vx >= (getWidth() - BALL_RADIUS * 2) && vx > 0)
             vx = -vx;
-        /** Check of axes Y  */
+        /** Check of axes Y */
         if ((ball.getY() - vy <= 0 && vy < 0))
             vy = -vy;
         /** Check for other object */
         GObject collider = getCollidingObject();
         if (collider == paddle) {
-            if (ball.getY() >= getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS * 2
+            if (ball.getY() >= getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS_DUBLE
                     && ball.getY() < getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS / 2)
                 vy = -vy;
         } else if (collider != null) {
@@ -243,7 +245,7 @@ public class Breakout extends WindowProgram {
     }
 
     /**
-     * The check four points of the ball  for colliding with any objects
+     * The check four points of the ball for colliding with any objects
      */
     private GObject getCollidingObject() {
         double ballX = ball.getX();
@@ -269,8 +271,10 @@ public class Breakout extends WindowProgram {
         getBallVelocity();
         while (true) {
             moveBall();
-            if (ball.getY() > getHeight())
+            if (ball.getY() >= getHeight()) {
+                ball.setVisible(false);
                 break;
+            }
             if (countBricks == 0)
                 break;
         }
