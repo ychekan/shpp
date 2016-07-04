@@ -8,10 +8,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by Yurii Chekan on 22.05.2016.
+ * Created by ret284 on 22.05.2016. edition 29.06.2016
  */
 
 public class Breakout extends WindowProgram {
+
     /**
      * Width and height of application window in pixels
      */
@@ -31,19 +32,19 @@ public class Breakout extends WindowProgram {
     private static final int PADDLE_HEIGHT = 10;
 
     /**
-     * Offset of the paddle up from the bottom
+     * Displacement from the bottom of the paddle
      */
     private static final int PADDLE_Y_OFFSET = 30;
 
     /**
      * Number of bricks per row
      */
-    private static final int NBRICKS_PER_ROW = 4;
+    private static final int NBRICKS_PER_ROW = 5;
 
     /**
-     * Number of rows of bricks
+     * Number of rows
      */
-    private static final int NBRICK_ROWS = 3;
+    private static final int NBRICK_ROWS = 10;
 
     /**
      * Separation between bricks
@@ -67,38 +68,30 @@ public class Breakout extends WindowProgram {
     private static final int BALL_RADIUS = 10;
 
     /**
-     * Diameter
+     * Diameter ball
      */
     private static final int BALL_RADIUS_DUBLE = BALL_RADIUS * 2;
 
     /**
-     * Offset of the top brick row from the top
+     * Displacement of the first row of bricks from the top
      */
     private static final int BRICK_Y_OFFSET = 70;
 
     /**
      * Number of turns
      */
-    private static final int NTURNS = 3;
-
-    private static final double MIN_RANGE_RANDOM = 1.0;
-
-    private static final double MAX_RANGE_RANDOM = 3.0;
+    private static final int NUM_TURNS = 3;
 
     /**
-     * Ball velocity
+     * The range of values for a random function
      */
-    private double vx, vy;
+    private static final double MIN_RANGE_RANDOM = 1.0;
+    private static final double MAX_RANGE_RANDOM = 3.0;
 
     /**
      * Speed ball from how in move on window
      */
-    private static final double SPEED = 2.0;
-
-    /**
-     * The paint in paddle
-     */
-    private GRect paddle;
+    private static final double SPEED = 3.0;
 
     /**
      * Pause in game
@@ -106,97 +99,99 @@ public class Breakout extends WindowProgram {
     private static final int PAUSE = 5;
 
     /**
-     * Objects type GOval
+     * Speed the ball
      */
-    private GOval gameBall;
-
+    private double vx, vy;
 
     /**
-     * Font for text in game
+     * The draw in paddle
      */
-    private Font font() {
-        Font fontToText = new Font("Courier", Font.BOLD, 30);
-        return fontToText;
-    }
+    private GRect paddle;
+
+    /**
+     * For the construction of the ball
+     */
+    private GOval ball;
+
+    /**
+     * Count brick for game
+     */
+    private int countBricks = NBRICK_ROWS * NBRICKS_PER_ROW;
 
     /**
      * Main method for play teh game
      */
     public void run() {
-        drawLineBricks();
+        drawBrick();
         drawPaddle();
-        for (int Raund = 0; Raund < NTURNS; ++Raund) {
+        for (int raundGame = 0; raundGame < NUM_TURNS; ++raundGame) {
             drawBall();
             playTheGame();
-            if (brickCounter == 0) {
-                gameBall.setVisible(false);
-                displayMessage("You is are WINNER :)");
+            if (countBricks == 0) {
+                ball.setVisible(false);
                 break;
             }
         }
         removeAll();
-        if (brickCounter > 0)
-            displayMessage("Game Over :(");
+        if (countBricks == 0)
+            sendMesseg("You win :)");
+        if (countBricks > 0)
+            sendMesseg("Sorry! Game Over :(");
     }
 
-    private void drawLineBricks() {
-        /**
-         * This method use parameter BRICK_WIDTH & BRICK_HEIGHT for build brick!
-         * @param coordinates X = i * (BRICK_SEP + BRICK_WIDTH) + BRICK_SEP / 2 - coordinates X for brick,
-         *          where i step of brick from axis X
-         *          BRICK_SEP / 2 - first step in left border
-         *          (BRICK_SEP + BRICK_WIDTH) - new step for building brick
-         * @param coordinates Y = BRICK_Y_OFFSET + j * (BRICK_HEIGHT + BRICK_SEP)
-         *           BRICK_Y_OFFSET - first step from up border
-         *           j * (BRICK_HEIGHT + BRICK_SEP) - new steps fron building brickS
-         **/
+    /**
+     * This method use parameter BRICK_WIDTH & BRICK_HEIGHT for draw bricks
+     **/
+    private void drawBrick() {
         for (int j = 0; j < NBRICK_ROWS; ++j) {
             for (int i = 0; i < NBRICKS_PER_ROW; ++i) {
-                Color color = new Color(i * 20, j * 20, i * j);
-                buildPaddle(color, i * (BRICK_SEP + BRICK_WIDTH) + BRICK_SEP / 2, BRICK_Y_OFFSET + j * (BRICK_HEIGHT + BRICK_SEP));
+                Color color = new Color(i * 15, j * 15, i * j);
+                /**
+                 * Colors vary depending on the number
+                 * */
+                drawPaddle(color, i * (BRICK_SEP + BRICK_WIDTH) + BRICK_SEP / 2, BRICK_Y_OFFSET + j * (BRICK_HEIGHT + BRICK_SEP));
             }
         }
     }
 
     /**
-     * Draw paddle
+     * Drawing paddle
      */
     private void drawPaddle() {
         /**
-         * @param ParameterX = first ( default ) position in window
-         * @param Default_Y = use for fixate position on axes Y, default value
+         * @param parameterX = first ( default ) position in window
+         * @param defaultY = use for fixate position on axes Y, default value
          * */
-        double ParameterX = getWidth() / 2 - PADDLE_WIDTH / 2;
+        double parameterX = (getWidth() - PADDLE_WIDTH) / 2;
         double defaultY = getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT;
-        paddle = new GRect(ParameterX, defaultY, PADDLE_WIDTH, PADDLE_HEIGHT);
+        paddle = new GRect(parameterX, defaultY, PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFilled(true);
-        add(paddle);/** Output piddle*/
-        addMouseListeners();/** Attach paddle to mouse*/
+        add(paddle);
+        addMouseListeners();
     }
 
     /**
-     * Draw ball
+     * Drawing ball
      */
     private void drawBall() {
         /**
          * Paint ball in center display
          * Color CYAN
          * */
-        gameBall = new GOval(BALL_RADIUS_DUBLE, BALL_RADIUS_DUBLE);/** diameter = 2 * Radius*/
-        gameBall.setFilled(true);
-        gameBall.setColor(Color.CYAN);
-        add(gameBall, (WIDTH - BALL_RADIUS) / 2, (HEIGHT - BALL_RADIUS) / 2);
+        ball = new GOval(BALL_RADIUS_DUBLE, BALL_RADIUS_DUBLE);
+        ball.setFilled(true);
+        ball.setColor(Color.CYAN);
+        add(ball, (WIDTH - BALL_RADIUS) / 2, (HEIGHT - BALL_RADIUS) / 2);
     }
 
     /**
-     * Parameters brick
+     * Drawing brick
      */
-    private void buildPaddle(Color color, int X, int Y) {
-        /** Paint brick*/
+    private void drawPaddle(Color color, int inputX, int inputY) {
         paddle = new GRect(BRICK_WIDTH, BRICK_HEIGHT);
         paddle.setFilled(true);
         paddle.setColor(color);
-        add(paddle, X, Y);
+        add(paddle, inputX, inputY);
     }
 
     /**
@@ -218,35 +213,30 @@ public class Breakout extends WindowProgram {
     private void getBallVelocity() {
         RandomGenerator rgen = RandomGenerator.getInstance();
         vx = rgen.nextDouble(MIN_RANGE_RANDOM, MAX_RANGE_RANDOM);
-        vy = SPEED;
+        vy = SPEED ;
     }
-
-    /**
-     * Count brick for game
-     */
-    private int brickCounter = NBRICK_ROWS * NBRICKS_PER_ROW;
 
     /**
      * Move ball in game
      */
     private void moveBall() {
         /** Ball move in coordinate vx and vy, this move result break out from paddle or wall */
-        gameBall.move(vx, vy);
+        ball.move(vx, vy);
         /** Check coordinate ball and wall. If she closest to 0 then move turn out side */
-        if ((gameBall.getX() - vx <= 0 && vx < 0) || (gameBall.getX() + vx >= (getWidth() - BALL_RADIUS * 2) && vx > 0))
+        if (ball.getX() - vx <= 0 && vx < 0 || ball.getX() + vx >= (getWidth() - BALL_RADIUS * 2) && vx > 0)
             vx = -vx;
         /** Check of axes Y  */
-        if ((gameBall.getY() - vy <= 0 && vy < 0))
+        if ((ball.getY() - vy <= 0 && vy < 0))
             vy = -vy;
         /** Check for other object */
         GObject collider = getCollidingObject();
         if (collider == paddle) {
-            if (gameBall.getY() > getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS_DUBLE
-                    && gameBall.getY() < getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS_DUBLE + BRICK_SEP)
+            if (ball.getY() >= getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS * 2
+                    && ball.getY() < getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS / 2)
                 vy = -vy;
         } else if (collider != null) {
             remove(collider);
-            --brickCounter;
+            --countBricks;
             vy = -vy;
         }
         pause(PAUSE);
@@ -256,8 +246,8 @@ public class Breakout extends WindowProgram {
      * The check four points of the ball  for colliding with any objects
      */
     private GObject getCollidingObject() {
-        double ballX = gameBall.getX();
-        double ballY = gameBall.getY();
+        double ballX = ball.getX();
+        double ballY = ball.getY();
         if ((getElementAt(ballX, ballY)) != null)
             return getElementAt(ballX, ballY);
         else if (getElementAt((ballX + BALL_RADIUS_DUBLE), ballY) != null)
@@ -279,25 +269,29 @@ public class Breakout extends WindowProgram {
         getBallVelocity();
         while (true) {
             moveBall();
-            if (gameBall.getY() > getHeight()) {
+            if (ball.getY() > getHeight())
                 break;
-            }
-            if (brickCounter == 0) {
+            if (countBricks == 0)
                 break;
-            }
         }
     }
-
 
     /**
      * Print messing for winner users
      */
-    private void displayMessage(String message) {
+    private void sendMesseg(String message) {
         GLabel text = new GLabel(message, getWidth() / 2, getHeight() / 2);
         text.setFont(font());
         text.move(-text.getWidth() / 2, -text.getHeight());
         text.setColor(Color.RED);
         add(text);
     }
-}
 
+    /**
+     * Font for text in game
+     */
+    private Font font() {
+        Font fontToText = new Font("Courier", Font.BOLD, 30);
+        return fontToText;
+    }
+}
