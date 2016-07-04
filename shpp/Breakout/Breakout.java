@@ -17,7 +17,7 @@ public class Breakout extends WindowProgram {
      * Width and height of application window in pixels
      */
     public static final int APPLICATION_WIDTH = 400;
-    public static final int APPLICATION_HEIGHT = 200;
+    public static final int APPLICATION_HEIGHT = 600;
 
     /**
      * Dimensions of game board (usually the same)
@@ -99,6 +99,16 @@ public class Breakout extends WindowProgram {
     private static final int PAUSE = 5;
 
     /**
+     * Size text
+     */
+    private static final int SIZW_TEXT = 30;
+
+    /**
+     * GRB constant
+     */
+    private static final int RGB_CONST = 15;
+
+    /**
      * Speed the ball
      */
     private double vx, vy;
@@ -145,7 +155,7 @@ public class Breakout extends WindowProgram {
     private void drawBrick() {
         for (int j = 0; j < NBRICK_ROWS; ++j) {
             for (int i = 0; i < NBRICKS_PER_ROW; ++i) {
-                Color color = new Color(i * 15, j * 15, i * j);
+                Color color = new Color(i * RGB_CONST, j * RGB_CONST, i * j);
                 /**
                  * Colors vary depending on the number
                  * */
@@ -295,7 +305,7 @@ public class Breakout extends WindowProgram {
      * Font for text in game
      */
     private Font font() {
-        Font fontToText = new Font("Courier", Font.BOLD, 30);
+        Font fontToText = new Font("Courier", Font.BOLD, SIZW_TEXT);
         return fontToText;
     }
 }
