@@ -32,35 +32,32 @@ public class AlgorismAlgorithms extends TextProgram {
         if (n1.isEmpty() || n2.isEmpty())
             println("Enter string !");
         else {
-            int maxLen = (n1.length() > n2.length()) ? n1.length() : n2.length();
-
-            if (n1.length() < maxLen) {
-                for (int i = 0; i < n2.length() - 1; ++i) {
-                    n1 = "0" + n1;
-                }
+            if (n1.length() != n2.length()) {
+                int difference = n1.length() - n2.length();
+                if (difference > 0)
+                    for (int i = 0; i < difference; ++i)
+                        n2 = "0" + n2;
+                if (difference < 0)
+                    for (int i = 0; i < difference; ++i)
+                        n1 = "0" + n1;
             }
-            System.out.println(n1);
-            if (n2.length() < maxLen) {
-                for (int i = 0; i < n1.length() - 1; ++i) {
-                    n2 = "0" + n2;
-                }
-            }
-            System.out.println(n2);
-            for (int i = maxLen - 1; i >= 0; --i) {
+            for (int i = n1.length() - 1; i >= 0; --i) {
                 int intN1 = getIntFromStr(n1.charAt(i));
                 int intN2 = getIntFromStr(n2.charAt(i));
                 int resultInt = intN1 + intN2 + ten;
-                //System.out.println("resultInt = " + resultInt);
-                if (resultInt > 9) {
-                    int resultUnits = resultInt % 10;
-                    ten = (resultInt - resultUnits) / 10;
-                    result = resultUnits + result;
-                } else
-                    result = resultInt + result;
+                String resultStr = Integer.toString(resultInt);
+                if (resultStr.length() > 1) {
+                    ten = Character.getNumericValue(resultStr.charAt(0));
+                    result = resultStr.charAt(1) + result;
+                    if (i == 0)
+                        result = resultStr.charAt(0) + result;
+                } else {
+                    ten = 0;
+                    result = resultStr.charAt(0) + result;
+                }
             }
         }
-        if (ten > 0)
-            result = Integer.toString(ten) + result;
+
         return result;
     }
 
