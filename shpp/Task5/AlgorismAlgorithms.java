@@ -35,10 +35,10 @@ public class AlgorismAlgorithms extends TextProgram {
             if (n1.length() != n2.length()) {
                 int difference = n1.length() - n2.length();
                 if (difference > 0)
-                    for (int i = 0; i < difference; ++i)
+                    for (int i = 0; i < Math.abs(difference); ++i)
                         n2 = "0" + n2;
                 if (difference < 0)
-                    for (int i = 0; i < difference; ++i)
+                    for (int i = 0; i < Math.abs(difference); ++i)
                         n1 = "0" + n1;
             }
             for (int i = n1.length() - 1; i >= 0; --i) {
