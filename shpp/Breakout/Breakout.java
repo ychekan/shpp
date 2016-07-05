@@ -244,7 +244,7 @@ public class Breakout extends WindowProgram {
         GObject collider = getCollidingObject();
         if (collider == paddle) {
             if (ball.getY() >= getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS_DUBLE
-                    && ball.getY() < getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS / 2)
+                    && ball.getY() < getHeight() - PADDLE_Y_OFFSET - PADDLE_HEIGHT - BALL_RADIUS / 2 && vy > 0)
                 vy = -vy;
         } else if (collider != null) {
             remove(collider);
@@ -260,13 +260,13 @@ public class Breakout extends WindowProgram {
     private GObject getCollidingObject() {
         double ballX = ball.getX();
         double ballY = ball.getY();
-        if (getElementAt(ballX, ballY) != null && ballX != paddle.getX() && ballY != paddle.getY())
+        if (getElementAt(ballX, ballY) != null)
             return getElementAt(ballX, ballY);
-        else if (getElementAt(ballX + BALL_RADIUS_DUBLE, ballY) != null && ballX != paddle.getX() && ballY != paddle.getY())
+        else if (getElementAt(ballX + BALL_RADIUS_DUBLE, ballY) != null)
             return getElementAt(ballX + BALL_RADIUS_DUBLE, ballY);
-        else if (getElementAt(ballX, ballY + BALL_RADIUS_DUBLE) != null && ballX != paddle.getX() && ballY != paddle.getY())
+        else if (getElementAt(ballX, ballY + BALL_RADIUS_DUBLE) != null)
             return getElementAt(ballX, ballY + BALL_RADIUS_DUBLE);
-        else if (getElementAt(ballX + BALL_RADIUS_DUBLE, ballY + BALL_RADIUS_DUBLE) != null && ballX != paddle.getX() && ballY != paddle.getY())
+        else if (getElementAt(ballX + BALL_RADIUS_DUBLE, ballY + BALL_RADIUS_DUBLE) != null)
             return getElementAt(ballX + BALL_RADIUS_DUBLE, ballY + BALL_RADIUS_DUBLE);
         /** Return null if there object no present, default value */
         else
