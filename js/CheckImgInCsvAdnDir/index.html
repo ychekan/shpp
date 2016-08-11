@@ -52,10 +52,11 @@
                 nameImg.push(fileCSVinCell[j][indImage]);
             /* Включам проверку для дополнительных картинок */
             if (fileCSVinCell[j][indImages]) {
+		
               var arrPar = parsImgs(fileCSVinCell[j][indImages])
               if (arrPar.length > 1) 
                   for (var i = 0; i < arrPar.length; ++i) 
-                      if (arrPar[i] != fileCSVinCell[j][indImages])
+                      
                           nameImg.push(arrPar[i]); 
               else 
                   nameImg.push(fileCSVinCell[j][indImages]);
@@ -72,54 +73,53 @@
       };
 
           function checkNameImg(nameImgCsv) {
-        //var result = [];
-        
         var resultType = [];
-        //sizeArr = [];
+	//var countImg = null;
         function openImage(evnt) {
           var files = document.getElementById('files').files;
           var fileD = document.getElementById('files').naturalHeight;
           
           var arrNameImgUpload = [];
-          //console.log(srcLink);
-          //getSizeImg(files);
+          
           for (var i = 0, f; f = files[i]; i++) {
             arrNameImgUpload.push(f.name);
-
-            if (f.type != "image/jpeg" && resultType[i] != f.name)
-              resultType.push(f.name);
-          }
-
+            }
+	//countImg = arrNameImgUpload.length;
+	//console.log(arrNameImgUpload.length)
         return arrNameImgUpload;
       }
+	
       
       var resultImg = [];
       var errArr = [];
       for (var i = 0; i < nameImgCsv.length; ++i) {
         if (nameImgCsv[i] != "Image_Not_Available.jpg") {
+	if(nameImgCsv[i]){
         for (var j = 0; j < openImage().length; ++j) {
-          if (nameImgCsv[i] != openImage()[j] && nameImgCsv[i] != resultImg[resultImg.length - 1])
-            resultImg.push(nameImgCsv[i]);
+       		if (nameImgCsv[i] == openImage()[j] && nameImgCsv[i]) {
+		delete nameImgCsv[i];
+		--i;
+		break;
+		}
         }
+}
       }
       }
-      //checkToRepet(resultType);
-      outputResult("Image type does not match *.jpg:", resultType);
-      outputResult("Image not exist:", resultImg);
+	console.log(openImage().length);
+	console.log(openImage());
+	nameImgCsv = nameImgCsv.sort();
+      outputResult("Image not exist:", nameImgCsv);
 }
 
 
 function outputResult(text, arrResult) {
   document.write("<p><strong>" + text + "</strong></p><ul>");
-  for (var i = 0; i < arrResult.length; ++i) {
-    for (var j = 0; j < arrResult.length; ++j) {
-     
-      if (arrResult[i] == arrResult[j] && i != j || arrResult[i] == "")
-          arrResult.splice(i, 1);
-    }
+  for (var i = 0; i < arrResult.length - 1; ++i) {
+	if (arrResult[i] && arrResult[i] != "Image_Not_Available.jpg" && arrResult[i] != arrResult[i + 1])
     document.write('<li>' + arrResult[i] + '</li>');
   }
   document.write("</ul>");
+  //document.write(countImg);
 }
 
   function parsImgs(str) {
@@ -128,23 +128,26 @@ function outputResult(text, arrResult) {
   }
 
   function checkToRepet(arrInput) {
-      arrInput.sort();
+      arrInput = arrInput.sort();
       for (var i = 0; i < arrInput.length; ++i) {
-          if (!arrInput[i]) {
+
+         if (arrInput[i] == arrInput[i - 1]) {
             delete arrInput[i];
-            break;
-          }
-          if (arrInput[i] == arrInput[i - 1])
-            delete arrInput[i];
+		
+	    break;
+	}
       }
+	return arrInput;
   }
+
 
 </script>
 
 </head>
 <body>
-  <input type="file" id="fileCSV" name="fileCSVname" accept=".csv" />
-  <p>
+<p>File CSV</p><p>
+  <input type="file" id="fileCSV" name="fileCSVname" accept=".csv" /></p>
+  <p>Images</p><p>
     <input type="file" id="files" name="files[]" accept="image/*" multiple />
   </p>
   <input type="submit" onclick="openFile(getElementById('fileCSV').files)" />
