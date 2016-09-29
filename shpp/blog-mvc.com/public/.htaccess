@@ -1,0 +1,30 @@
+DirectoryIndex index.php
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+#RewriteRule ^about/$ index.php?controller=main?action=about [QSA,L]
+
+#RewriteRule ^about/?$ index.php?controller=about&action=index/$1 [L,QSA]
+RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+
+RewriteRule ^(.*)/$ index.php?$1/ [L,QSA]
+
+#RewriteRule ^admin/?$ index.php?controller=about&action=index/$1 [L,QSA]
+
+ErrorDocument 401 /public/error/401.html
+ErrorDocument 403 http://www.403.loc/
+ErrorDocument 404 /public/error/404.php/
+ErrorDocument 500 http://www.500.loc/
+
+#RewriteRule (.*)$ index.php?$1/ [QSA,L]
+#RewriteRule ^main/([a-z-]+)/$ index.php?controller=main&action=$1 [QSA,L]
+
+#Запрос вида http://site.net/shop/50/ будет рассматриваться сервером как http://site.net/index.php?dir=shop&s=50:
+
+ #RewriteRule ^([A-Za-z]+)/([0-9]+)/$ index.php?dir=$1&s=$2 [L]
+ #RewriteRule ^([a-z-]+)/([a-z-]+)/([0-9-]+)$ index.php?controller=$1&action=$2 [L]
+ #RewriteRule ^([A-Za-z]+)/([0-9]+)/$ index.php?controller=$1&action=$2 [L]

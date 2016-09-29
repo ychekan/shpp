@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+}
+article, aside, details, figcaption, figure, footer, header, main, nav, section, summary {
+    display: block;
+}
+body {
+    font: 12px/18px Arial, sans-serif;
+    height: 100%;
+}
+.wrapper {
+    position: relative;
+    left: 8%;
+    right: 8%;
+    width: 84%;
+    min-width: 84%;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+}
+
+
+/* Header
+-----------------------------------------------------------------------------*/
+.header {
+    /*height: 350px;*/
+    background: #eeeeee;
+    border-radius: 10px;
+    position: relative;
+}
+
+#site-name {
+    text-align: left;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+#header-menu-div {
+    font-size: 14pt;
+    /*color: #1682ba;*/
+    background-color: #1fa0e4;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 10px;
+
+}
+
+/** Search input  */
+#search-input {
+    float: right;
+    font-size: 18px;
+    border-radius: 20px 0 20px 0;
+    padding-left: 15px;
+    position: relative;
+    right: 0;
+    top: -10px;
+}
+
+#search-submit {
+    float: right;
+    font-size: 18px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-top: 0;
+    margin-left: 10px;
+    border-radius: 15px 0 15px 0;
+    position: relative;
+    right: 5px;
+    top: -10px;
+}
+
+/* Middle
+-----------------------------------------------------------------------------*/
+.middle {
+    width: 100%;
+    padding: 0 0 100px;
+    position: relative;
+}
+.middle:after {
+    display: table;
+    clear: both;
+    content: '';
+}
+.container {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+}
+.content {
+    padding: 0 0 20px 23%;
+    position: relative;
+    top: 15px;
+    left: 0;
+}
+
+.imgMain{
+    border: 1px solid black; 
+    position: relative;
+
+}
+
+.imgSmall{
+    height: 3%; /* height block */
+    /*background-size: 20px auto;*/
+    margin-left: 1%;
+    /*margin-bottom: 12%;*/
+    border: 1px solid black; 
+    position: all;
+}
+
+
+
+/* Left Sidebar
+-----------------------------------------------------------------------------*/
+.left-sidebar {
+    float: left;
+    margin-top: 10px;
+    width: 230px;
+    margin-left: -91%;
+    position: static;
+    background: #fff;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+
+/* Footer
+-----------------------------------------------------------------------------*/
+.footer {
+    font-size: 14pt;
+    background-color: #1fa0e4;
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    left: 8%;
+    right: 0;
+    width: 84%;
+    height: 10%;
+}
+
+.scroling {
+  display: table;
+  width: 100%;
+  height: 5em; /* &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090; &#1090;&#1072;&#1082;&#1078;&#1077; &#1082;&#1072;&#1082; min-height, &#1090;&#1086; &#1077;&#1089;&#1090;&#1100; &#1073;&#1091;&#1076;&#1077;&#1090; &#1088;&#1072;&#1089;&#1090;&#1103;&#1075;&#1080;&#1074;&#1072;&#1090;&#1100;&#1089;&#1103; &#1087;&#1086;&#1082;&#1072; &#1085;&#1077; &#1087;&#1086;&#1084;&#1077;&#1089;&#1090;&#1080;&#1090;&#1089;&#1103; &#1074;&#1089;&#1105; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1077; */
+  text-align: center;
+  background: #fff5d7;
+}
+.scroling div { /* &#1076;&#1083;&#1103; IE8+ */
+  display: table-cell;
+  vertical-align: middle;
+}
+.scroling div:nth-child(2) { /* &#1085;&#1077; &#1084;&#1077;&#1085;&#1077;&#1077; &#1074;&#1099;&#1089;&#1086;&#1090;&#1099; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1103; */
+  background: #9F9;
+}
+
+.middle {
+    width: 80%;
+    float: right;
+}
+
+.content {padding-left: 0;}
+
+.container {width: 100% !important;}
+
+.left-sidebar {
+    margin-left: 10px !important;
+    margin-top: 10px !important;
+}
+
+.container-menu {
+    width: 100%;
+}
+
+#cssmenu {
+    width: 100% !important;
+}
+
+.container-menu {width: 100% !important;}
+
+.left-sidebar {float: left; width: 18%;}
+
+.content-table-site {
+    
+    width: 50%;
+}
